@@ -1,42 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Descubre tu nivel de inglés</title>
-
-<style>
+<title>Test de Inglés Gratuito</title><style>
 body{
 font-family:Arial,sans-serif;
-background:#f5f7fa;
+background:linear-gradient(135deg,#2563eb,#4f46e5);
 margin:0;
 padding:20px;
+color:#fff;
 }
 
 .container{
 max-width:600px;
 margin:auto;
 background:white;
+color:#111;
 padding:25px;
 border-radius:20px;
-box-shadow:0 5px 20px rgba(0,0,0,.1);
+box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
 h1{
 text-align:center;
-color:#1f2937;
+margin-bottom:10px;
+}
+
+.progress{
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:100%;
+width:20%;
+background:#2563eb;
+transition:.3s;
 }
 
 .question{
-margin-top:20px;
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
 }
 
 button{
 width:100%;
 padding:15px;
-margin-top:10px;
+margin:8px 0;
 border:none;
-border-radius:10px;
+border-radius:12px;
 background:#2563eb;
 color:white;
 font-size:16px;
@@ -44,89 +60,141 @@ cursor:pointer;
 }
 
 button:hover{
-background:#1d4ed8;
+opacity:.9;
 }
 
 .result{
 display:none;
-margin-top:20px;
-padding:20px;
-border-radius:15px;
-background:#eff6ff;
 text-align:center;
 }
 
 .cta{
 background:#22c55e;
+font-size:18px;
+font-weight:bold;
 }
 
-.cta:hover{
-background:#16a34a;
+.score{
+font-size:24px;
+font-weight:bold;
+margin:15px 0;
 }
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>¿Cuál es tu nivel real de inglés?</h1>
-
-<p>Responde estas preguntas rápidas.</p>
-
-<div id="quiz">
-
-<div class="question">
-<p>1. ¿Qué significa "Good Morning"?</p>
-<button onclick="answer(1)">Buenos días</button>
-<button onclick="answer(0)">Buenas noches</button>
-<button onclick="answer(0)">Gracias</button>
-</div>
-
-</div>
-
-<div class="result" id="result">
-<h2 id="title"></h2>
-<p id="message"></p>
-
-<button class="cta"
+</style></head><body><div class="container"><h1>Descubre tu nivel de inglés</h1><div class="progress">
+<div class="progress-bar" id="bar"></div>
+</div><div id="quiz">
+<div class="question" id="question"></div>
+<div id="answers"></div>
+</div><div class="result" id="result">
+<h2 id="resultTitle"></h2>
+<div class="score" id="score"></div>
+<p id="resultText"></p><button class="cta"
 onclick="window.location.href='https://impulso360.github.io/ingles-natural/'">
-Ver Clase Gratuita
+🎁 Ver Clase Gratuita
 </button>
 
-</div>
+</div></div><script>
 
-</div>
+const questions=[
+{
+q:"¿Qué significa 'Good Morning'?",
+a:["Buenos días","Buenas noches","Gracias"],
+c:0
+},
+{
+q:"¿Qué significa 'How are you?'",
+a:["¿Cómo estás?","¿Dónde vives?","¿Qué hora es?"],
+c:0
+},
+{
+q:"¿Qué significa 'Thank you'?",
+a:["Por favor","Gracias","Perdón"],
+c:1
+},
+{
+q:"¿Qué significa 'See you later'?",
+a:["Hasta luego","Buenos días","Bienvenido"],
+c:0
+},
+{
+q:"¿Qué significa 'I love learning English'?",
+a:["Me gusta viajar","Amo aprender inglés","Quiero estudiar mañana"],
+c:1
+}
+];
 
-<script>
+let current=0;
+let points=0;
 
-let score=0;
+function loadQuestion(){
 
-function answer(value){
+document.getElementById("question").innerText=
+questions[current].q;
 
-score += value;
+let html="";
+
+questions[current].a.forEach((answer,index)=>{
+html+=`<button onclick="check(${index})">${answer}</button>`;
+});
+
+document.getElementById("answers").innerHTML=html;
+
+document.getElementById("bar").style.width=
+((current+1)/questions.length)*100+"%";
+}
+
+function check(index){
+
+if(index===questions[current].c){
+points++;
+}
+
+current++;
+
+if(current<questions.length){
+loadQuestion();
+}else{
+showResult();
+}
+
+}
+
+function showResult(){
 
 document.getElementById("quiz").style.display="none";
 document.getElementById("result").style.display="block";
 
-if(score===1){
+document.getElementById("score").innerText=
+points+" / "+questions.length+" respuestas correctas";
 
-document.getElementById("title").innerHTML="¡Buen comienzo!";
+if(points<=2){
 
-document.getElementById("message").innerHTML=
-"Con un método correcto podrías avanzar mucho más rápido. Mira la clase gratuita.";
+document.getElementById("resultTitle").innerText=
+"Tu inglés puede mejorar muchísimo";
+
+document.getElementById("resultText").innerText=
+"La mayoría aprende con métodos difíciles. Descubre una forma más natural en la clase gratuita.";
+
+}else if(points<=4){
+
+document.getElementById("resultTitle").innerText=
+"¡Vas por buen camino!";
+
+document.getElementById("resultText").innerText=
+"Con práctica diaria y el método correcto puedes avanzar mucho más rápido.";
 
 }else{
 
-document.getElementById("title").innerHTML="Necesitas un método diferente";
+document.getElementById("resultTitle").innerText=
+"¡Excelente!";
 
-document.getElementById("message").innerHTML=
-"La mayoría intenta aprender inglés memorizando reglas. Existe una forma mucho más natural.";
+document.getElementById("resultText").innerText=
+"Tienes una buena base. Aprende cómo acelerar tu progreso en la clase gratuita.";
+
 }
 
 }
 
-</script>
+loadQuestion();
 
-</body>
+</script></body>
 </html>
