@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Fluidez en Inglés</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#111,#333);color:#fff}
+.wrap{max-width:700px;margin:auto;padding:20px}
+.card{background:#fff;color:#222;border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+h1{text-align:center}
+.progress{height:10px;background:#ddd;border-radius:99px;overflow:hidden;margin:15px 0}
+.bar{height:100%;width:0;background:#111}
+.q{display:none}
+.q.active{display:block}
+label{display:block;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:12px;cursor:pointer}
+button{width:100%;padding:14px;border:none;border-radius:12px;background:#111;color:#fff;font-size:16px;cursor:pointer}
+#result{display:none}
+.cta{display:inline-block;text-decoration:none;background:#111;color:#fff;padding:14px 20px;border-radius:12px;margin-top:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1>🏆 Diagnóstico de Fluidez en Inglés</h1>
+<p>Descubre qué te está impidiendo hablar inglés con confianza.</p>
+
+<div class="progress"><div class="bar" id="bar"></div></div>
+
+<form id="quiz">
+<div class="q active">
+<p>1. ¿Hace cuánto intentas aprender inglés?</p>
+<label><input type="radio" name="q1" value="trad"> Más de 1 año</label>
+<label><input type="radio" name="q1" value="normal"> Menos de 1 año</label>
+</div>
+
+<div class="q">
+<p>2. Cuando escuchas inglés...</p>
+<label><input type="radio" name="q2" value="auditivo"> Entiendo palabras sueltas</label>
+<label><input type="radio" name="q2" value="fluidez"> Entiendo bastante</label>
+</div>
+
+<div class="q">
+<p>3. ¿Qué te cuesta más?</p>
+<label><input type="radio" name="q3" value="auditivo"> Entender</label>
+<label><input type="radio" name="q3" value="fluidez"> Hablar</label>
+<label><input type="radio" name="q3" value="trad"> Traducir</label>
+</div>
+
+<div class="q">
+<p>4. ¿Intentas traducir mentalmente?</p>
+<label><input type="radio" name="q4" value="trad"> Siempre</label>
+<label><input type="radio" name="q4" value="fluidez"> Casi nunca</label>
+</div>
+
+<div class="q">
+<p>5. ¿Puedes mantener una conversación?</p>
+<label><input type="radio" name="q5" value="fluidez"> Con dificultad</label>
+<label><input type="radio" name="q5" value="auditivo"> No</label>
+</div>
+
+<button type="button" id="next">Siguiente</button>
+</form>
+
+<div id="result"></div>
+</div>
+</div>
+
+<script>
+let i=0;
+const qs=document.querySelectorAll('.q');
+const bar=document.getElementById('bar');
+
+document.getElementById('next').onclick=()=>{
+ if(i<qs.length-1){
+   qs[i].classList.remove('active');
+   i++;
+   qs[i].classList.add('active');
+   bar.style.width=((i)/qs.length*100)+'%';
+ }else{
+   const vals=[...document.querySelectorAll('input:checked')].map(x=>x.value);
+   let counts={trad:0,auditivo:0,fluidez:0};
+   vals.forEach(v=>counts[v]++);
+   let top=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);
+
+   let txt='';
+   if(top==='trad') txt='<h2>🚧 Bloqueo por Traducción</h2><p>Intentas traducir antes de comprender. Eso ralentiza tu fluidez.</p>';
+   if(top==='auditivo') txt='<h2>🎧 Bloqueo Auditivo</h2><p>Necesitas entrenar tu oído para entender inglés real.</p>';
+   if(top==='fluidez') txt='<h2>🗣️ Bloqueo de Fluidez</h2><p>Sabes más de lo que crees, pero necesitas hablar con más confianza.</p>';
+
+   document.getElementById('quiz').style.display='none';
+   document.getElementById('result').style.display='block';
+   document.getElementById('result').innerHTML=txt+'<p>Descubre una forma diferente de aprender inglés.</p><a class="cta" href="https://impulso360.github.io/ingles-natural/" target="_blank">🎁 Ver Clase Gratuita</a>';
+   bar.style.width='100%';
+ }
+}
+</script>
+</body>
+</html>
