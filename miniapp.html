@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descubre tu nivel de inglés</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fa;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+h1{
+text-align:center;
+color:#1f2937;
+}
+
+.question{
+margin-top:20px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.result{
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:15px;
+background:#eff6ff;
+text-align:center;
+}
+
+.cta{
+background:#22c55e;
+}
+
+.cta:hover{
+background:#16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>¿Cuál es tu nivel real de inglés?</h1>
+
+<p>Responde estas preguntas rápidas.</p>
+
+<div id="quiz">
+
+<div class="question">
+<p>1. ¿Qué significa "Good Morning"?</p>
+<button onclick="answer(1)">Buenos días</button>
+<button onclick="answer(0)">Buenas noches</button>
+<button onclick="answer(0)">Gracias</button>
+</div>
+
+</div>
+
+<div class="result" id="result">
+<h2 id="title"></h2>
+<p id="message"></p>
+
+<button class="cta"
+onclick="window.location.href='https://impulso360.github.io/ingles-natural/'">
+Ver Clase Gratuita
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let score=0;
+
+function answer(value){
+
+score += value;
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+
+if(score===1){
+
+document.getElementById("title").innerHTML="¡Buen comienzo!";
+
+document.getElementById("message").innerHTML=
+"Con un método correcto podrías avanzar mucho más rápido. Mira la clase gratuita.";
+
+}else{
+
+document.getElementById("title").innerHTML="Necesitas un método diferente";
+
+document.getElementById("message").innerHTML=
+"La mayoría intenta aprender inglés memorizando reglas. Existe una forma mucho más natural.";
+}
+
+}
+
+</script>
+
+</body>
+</html>
